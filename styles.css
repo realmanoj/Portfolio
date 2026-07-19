@@ -26,6 +26,7 @@
   --footer-text: rgba(255, 255, 255, 0.8);
   --footer-text-strong: #ffffff;
   --footer-link-bg: color-mix(in srgb, #ffffff 8%, transparent);
+  --footer-link-bg-active: color-mix(in srgb, #ffffff 16%, transparent);
 }
 
 [data-theme="dark"] {
@@ -42,11 +43,12 @@
   --accent: #ffffff;
   --shadow: 0 20px 48px -28px rgba(0, 0, 0, 0.82);
   --shadow-soft: 0 12px 24px -20px rgba(0, 0, 0, 0.78);
-  --footer-bg: #090d14;
-  --footer-border: color-mix(in srgb, #9eb0cc 26%, transparent);
-  --footer-text: #c6cedc;
-  --footer-text-strong: #f5f7fa;
-  --footer-link-bg: color-mix(in srgb, #d9e5ff 14%, transparent);
+  --footer-bg: #0a111b;
+  --footer-border: rgba(158, 176, 204, 0.32);
+  --footer-text: #d5deee;
+  --footer-text-strong: #ffffff;
+  --footer-link-bg: rgba(170, 195, 249, 0.18);
+  --footer-link-bg-active: rgba(170, 195, 249, 0.3);
 }
 
 *, *::before, *::after {
@@ -1108,6 +1110,8 @@ ul {
 }
 
 .footer__link:active {
+  color: var(--footer-text-strong);
+  background: var(--footer-link-bg-active);
   transform: translateY(0);
 }
 
@@ -1118,6 +1122,8 @@ ul {
 .footer__link:focus-visible {
   color: var(--footer-text-strong);
   background: var(--footer-link-bg);
+  outline: 2px solid var(--footer-text-strong);
+  outline-offset: 2px;
 }
 
 .fade-up {

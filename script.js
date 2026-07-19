@@ -1,6 +1,7 @@
 /* ── THEME TOGGLE ────────────────────────────────────────────────────────── */
 const html = document.documentElement;
 const themeBtn = document.getElementById('theme-toggle');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 const savedTheme = localStorage.getItem('theme') ||
   (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -65,6 +66,9 @@ if (navToggle && navList) {
 
 /* ── SCROLL ANIMATIONS ───────────────────────────────────────────────────── */
 const fadeEls = document.querySelectorAll('.fade-up:not(.hero .fade-up)');
+fadeEls.forEach((el, index) => {
+  el.style.transitionDelay = `${Math.min(index * 60, 240)}ms`;
+});
 const fadeObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fadeObserver.unobserve(e.target); } });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
@@ -118,8 +122,22 @@ if (skillsList) skillObserver.observe(skillsList);
 document.querySelectorAll('.card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
-    card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
-    card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+
+    if (!prefersReducedMotion.matches) {
+      const rotateY = ((x / rect.width) - 0.5) * 4;
+      const rotateX = (0.5 - (y / rect.height)) * 4;
+      card.style.setProperty('--card-tilt-x', `${rotateX.toFixed(2)}deg`);
+      card.style.setProperty('--card-tilt-y', `${rotateY.toFixed(2)}deg`);
+    }
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.setProperty('--card-tilt-x', '0deg');
+    card.style.setProperty('--card-tilt-y', '0deg');
   });
 });
 

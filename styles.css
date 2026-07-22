@@ -390,6 +390,7 @@ ul {
   padding-top: calc(var(--nav-height) + 3.2rem);
   padding-bottom: 4rem;
   overflow: clip;
+  isolation: isolate;
 }
 
 .hero::before {
@@ -400,6 +401,21 @@ ul {
   background: radial-gradient(circle at center, rgba(143, 90, 42, 0.16), transparent 66%);
   filter: blur(12px);
   pointer-events: none;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 46%;
+  background-image:
+    linear-gradient(to left, color-mix(in srgb, var(--bg) 60%, transparent), transparent 38%),
+    linear-gradient(to top, color-mix(in srgb, var(--bg) 18%, transparent), transparent 45%),
+    url("assets/Manoj_headshot.jpg");
+  background-size: cover;
+  background-position: center 14%;
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero__blobs,
@@ -610,7 +626,7 @@ ul {
 
 .hero__photo-wrap {
   position: relative;
-  display: flex;
+  display: none;
   justify-content: center;
 }
 
@@ -1155,12 +1171,17 @@ ul {
 }
 
 @media (max-width: 980px) {
+  .hero::after {
+    display: none;
+  }
+
   .hero__inner {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
   .hero__photo-wrap {
+    display: flex;
     order: -1;
     max-width: 320px;
     margin-inline: auto;
